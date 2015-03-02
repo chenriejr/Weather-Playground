@@ -22,6 +22,23 @@
 	return sharedInstance;
 }
 
+- (void)getWeatherWithName:(NSString *)name completion:(void (^)(Weather *weather))completion {
+	
+	NSString *path = [NSString stringWithFormat:@"weather?q=%@", name];
+	
+	[[NetworkController api] GET:path parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+		
+		NSLog(@"getWeatherWithName: %@", responseObject);
+		NSDictionary *responseDictionary = responseObject;
+		Weather *weatherObject = [[Weather alloc] initWithDictionary:responseDictionary];
+		completion(weatherObject);
+		
+	} failure:^(NSURLSessionDataTask *task, NSError *error) {
+		NSLog(@"Error getting weather: %@", error);
+		completion(nil);
+	}];
+	
+}
 
 
 @end
