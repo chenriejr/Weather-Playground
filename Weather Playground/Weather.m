@@ -8,7 +8,7 @@
 
 #import "Weather.h"
 
-static NSString * const locationKey = @"location";
+static NSString * const locationKey = @"name";
 static NSString * const mainKey = @"main";
 static NSString * const descriptionKey = @"description";
 static NSString * const iconKey = @"icon";
@@ -22,11 +22,11 @@ static NSString * const tempKey = @"temp";
 	self = [super init];
 	
 	if (self) {
-		self.locationName = dictionary[locationKey];
-		self.weatherMain = dictionary[mainKey];
-		self.weatherDescription = dictionary[descriptionKey];
-		self.weatherIcon = dictionary[iconKey];
-		self.weatherTemp = dictionary[tempKey];
+		self.locationName = dictionary[@"name"];
+		self.weatherMain = dictionary[@"weather"][0][@"main"];
+		self.weatherDescription = dictionary[@"weather"][0][@"description"];
+		self.weatherIcon = dictionary[@"weather"][0][@"icon"];
+		self.weatherTemp = dictionary[@"main"][@"temp"];
 	}
 	return self;
 	
