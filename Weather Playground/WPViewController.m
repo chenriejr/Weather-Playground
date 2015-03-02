@@ -30,21 +30,29 @@
 	
 }
 
-- (double)celsiusFromKelvinString:(NSString *)kelvin
+- (double)fahrenheitFromKelvinString:(NSString *)kelvin
 {
 	double kelvinDouble = [kelvin doubleValue];
-	return kelvinDouble - 273.15;
+	return ((kelvinDouble - 273.15)*1.8) + 32;
 }
+
+
+//- (double)celsiusFromKelvinString:(NSString *)kelvin
+//{
+//	double kelvinDouble = [kelvin doubleValue];
+//	return kelvinDouble - 273.15;
+//}
+
 
 - (IBAction)search:(id)sender {
 	
 	[[ObjectController sharedInstance] getWeatherWithName:[self.textField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] completion:^(Weather *weather) {
 		self.location.text = weather.locationName;
-		self.temp.text = [NSString stringWithFormat:@"%.1fº C", [self celsiusFromKelvinString:weather.weatherTemp]];
+		self.temp.text = [NSString stringWithFormat:@"%.1fº F", [self fahrenheitFromKelvinString:weather.weatherTemp]];
 		self.main.text = weather.weatherMain;
 		self.information.text = weather.weatherDescription;
 		
-		NSString *iconString = [NSString stringWithFormat:@"http://openweathermap.org/img/w%@.png", weather.weatherIcon];
+		NSString *iconString = [NSString stringWithFormat:@"http://openweathermap.org/img/w/%@.png", weather.weatherIcon];
 		NSURL *iconURL = [NSURL URLWithString:iconString];
 		[self.image setImageWithURL:iconURL];
 	}];
